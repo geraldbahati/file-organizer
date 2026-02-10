@@ -1,0 +1,53 @@
+# file-organizer configuration
+# See https://github.com/geraldbahati/file-organizer for documentation
+
+watch_dirs:
+  - ~/Downloads
+  - ~/Desktop
+
+debounce_ms: 500
+
+rules:
+  - category: Images
+    extensions: [.jpg, .jpeg, .png, .gif, .bmp, .svg, .webp, .ico, .tiff, .heic]
+    destination: ~/Pictures
+
+  - category: Videos
+    extensions: [.mp4, .mkv, .avi, .mov, .wmv, .flv, .webm]
+    destination: ~/Movies
+
+  - category: Music
+    extensions: [.mp3, .wav, .flac, .aac, .ogg, .wma, .m4a]
+    destination: ~/Music
+
+  - category: Documents
+    extensions: [.pdf, .doc, .docx, .xls, .xlsx, .ppt, .pptx, .txt, .rtf, .odt, .csv]
+    destination: ~/Documents
+
+  - category: Archives
+    extensions: [.zip, .tar, .gz, .rar, .7z, .bz2, .xz]
+    destination: ~/Documents/Archives
+
+  - category: Code
+    extensions: [.go, .py, .js, .ts, .java, .c, .cpp, .rs, .rb, .html, .css, .json, .yaml, .yml, .xml, .sh, .sql]
+    destination: ~/Documents/Code
+
+  - category: Apps
+    extensions: [.dmg, .pkg]
+    destination: ~/Downloads/Apps
+
+  - category: Fonts
+    extensions: [.ttf, .otf, .woff, .woff2]
+    destination: ~/Documents/Fonts
+
+  - category: eBooks
+    extensions: [.epub, .mobi]
+    destination: ~/Documents/Books
+
+  - category: Torrents
+    extensions: [.torrent]
+    destination: ~/Documents/Torrents
+
+  - category: Design
+    extensions: [.psd, .ai, .sketch, .fig, .xd]
+    destination: ~/Documents/Design
