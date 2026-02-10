@@ -45,7 +45,10 @@ func runForeground() error {
 	}
 	defer daemon.RemovePID()
 
-	index := organizer.NewRuleIndex(cfg.Rules)
+	index, err := organizer.NewRuleIndex(cfg.Rules)
+	if err != nil {
+		return fmt.Errorf("building rule index: %w", err)
+	}
 	org := organizer.New(index, logger)
 
 	debounce := time.Duration(cfg.DebounceMs) * time.Millisecond

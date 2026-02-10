@@ -38,25 +38,18 @@ var partialExtensions = map[string]bool{
 // ShouldIgnore returns true if the file should not be organized.
 func ShouldIgnore(path string) bool {
 	name := filepath.Base(path)
-	if IsHidden(name) {
+	// Inline hidden check — name already has no path separators.
+	if len(name) > 0 && name[0] == '.' {
 		return true
 	}
 	ext := strings.ToLower(filepath.Ext(name))
-	if partialExtensions[ext] {
-		return true
-	}
-	// Ignore files with double extensions ending in a partial ext (e.g., file.pdf.crdownload)
-	nameNoExt := strings.TrimSuffix(name, ext)
-	if secondExt := filepath.Ext(nameNoExt); partialExtensions[strings.ToLower(secondExt)] {
-		return true
-	}
-	return false
+	return partialExtensions[ext]
 }
 
 // ResolveConflict returns a non-conflicting file path by appending a timestamp
 // suffix if the destination already exists.
 func ResolveConflict(dest string) string {
-	if _, err := os.Stat(dest); os.IsNotExist(err) {
+	if _, err := os.Lstat(dest); os.IsNotExist(err) {
 		return dest
 	}
 
@@ -68,11 +61,11 @@ func ResolveConflict(dest string) string {
 	newPath := filepath.Join(dir, newName)
 
 	// In the unlikely event the timestamped name also exists, add a counter.
-	if _, err := os.Stat(newPath); err == nil {
+	if _, err := os.Lstat(newPath); err == nil {
 		for i := 2; ; i++ {
 			newName = fmt.Sprintf("%s_%s_%d%s", base, stamp, i, ext)
 			newPath = filepath.Join(dir, newName)
-			if _, err := os.Stat(newPath); os.IsNotExist(err) {
+			if _, err := os.Lstat(newPath); os.IsNotExist(err) {
 				break
 			}
 		}
