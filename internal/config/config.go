@@ -16,7 +16,7 @@ type Config struct {
 	DebounceMs int      `yaml:"debounce_ms"`
 }
 
-// DefaultConfigPath returns ~/.config/file-organizer/config.yaml.
+// DefaultConfigPath returns the default config file path.
 func DefaultConfigPath() (string, error) {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -93,17 +93,10 @@ func (c *Config) ExpandedWatchDirs() ([]string, error) {
 	return dirs, nil
 }
 
-func writeDefault(path string, cfg Config) error {
+func writeDefault(path string, _ Config) error {
 	dir := filepath.Dir(path)
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return err
 	}
-
-	data, err := yaml.Marshal(cfg)
-	if err != nil {
-		return err
-	}
-
-	header := []byte("# file-organizer configuration\n# See https://github.com/geraldbahati/file-organizer for documentation\n\n")
-	return os.WriteFile(path, append(header, data...), 0644)
+	return os.WriteFile(path, []byte(DefaultConfigTemplate()), 0644)
 }
