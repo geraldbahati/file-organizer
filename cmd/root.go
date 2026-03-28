@@ -17,8 +17,8 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:   "file-organizer",
-	Short: "Automatically organize files from Downloads and Desktop",
-	Long:  "A background daemon that watches directories and moves files to the appropriate folders based on file type.",
+	Short: "Automatically organize files on macOS",
+	Long:  "A macOS background daemon that watches Downloads and Desktop, then moves files into predictable folders based on file type.",
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 		// Set up logger.
 		level := slog.LevelInfo
